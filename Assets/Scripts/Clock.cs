@@ -8,7 +8,9 @@ public abstract class Clockable : MonoBehaviour
     {
         Debug.Log("parent clockable start");
         Debug.Log("this : " + this);
+        Debug.Log(Clock.Instance);
         Clock.Instance.Register(this);
+
     }
 
     public abstract void Action();
@@ -16,13 +18,16 @@ public abstract class Clockable : MonoBehaviour
 
 public class Clock : MonoBehaviour
 {
+    public int Timer { get; private set; }
     public static Clock Instance { get; private set; }
     void Awake() 
-    { 
+    {
+        Timer = 0;
         // If there is an instance, and it's not me, delete myself.
         
         if (Instance != null && Instance != this) 
-        { 
+        {
+            Debug.Log("Destroying");
             Destroy(this); 
         } 
         else 
@@ -57,6 +62,7 @@ public class Clock : MonoBehaviour
     {
         while (true)
         {
+            Timer++;
             objects.ForEach(delegate(Clockable e)
             {
                 e.Action();
