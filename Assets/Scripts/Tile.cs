@@ -17,7 +17,6 @@ public class Tile : Clockable
 
     public override void Action()
     {
-        Clock.Instance.
         switch (state)
         {
             case State.Empty:
