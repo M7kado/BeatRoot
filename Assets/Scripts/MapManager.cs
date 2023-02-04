@@ -50,7 +50,7 @@ public class Position
 
 public class MapManager : MonoBehaviour
 {
-    public int mapWidth = 10;
+    public int mapWidth = 3;
     public int mapHeight = 3;
 
     public Tile[,] map= 
