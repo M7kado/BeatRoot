@@ -17,7 +17,6 @@ public class Beetroot : Clockable, Iinteractable
         GROWN = 2,
         ROTTEN =3
     }  
-    State state = new();
     int birthTick = -1;
     [SerializeField] int growthTime;
     [SerializeField] int rotTime;
@@ -73,9 +72,9 @@ public class Beetroot : Clockable, Iinteractable
         Debug.Log("Interacted with field");
         if (birthTick == -1)
             birthTick = Clock.Instance.Timer;
-        if (state == State.GROWN)
+        if (currentState == State.GROWN)
             PlayerManager.Instance.StoredBeets++;
-        if (state == State.GROWN || state == State.ROTTEN)
+        if (currentState == State.GROWN || currentState == State.ROTTEN)
             birthTick = -1;
     }
 
