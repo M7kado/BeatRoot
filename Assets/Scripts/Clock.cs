@@ -43,6 +43,9 @@ public class Clock : MonoBehaviour
         { 
             Instance = this; 
             Debug.Log("instance set" + Instance);
+            objects = new List<Clockable>();
+            StartCoroutine(Tick());
+            //StartCoroutine(PlayerTiming());
         } 
     }
 
@@ -52,9 +55,9 @@ public class Clock : MonoBehaviour
     void Start()
     {
         Debug.Log("parent clock start");
-        objects = new List<Clockable>();
-        StartCoroutine(Tick());
-        StartCoroutine(PlayerTiming());
+        // objects = new List<Clockable>();
+        // StartCoroutine(Tick());
+        // StartCoroutine(PlayerTiming());
 
     }
 
@@ -67,6 +70,8 @@ public class Clock : MonoBehaviour
 
     private IEnumerator Tick()
     {
+        GetComponent<AudioSource>().Play();
+
         while (true)
         {
             Timer++;
@@ -74,24 +79,31 @@ public class Clock : MonoBehaviour
             {
                 e.Action();
             });
-            yield return new WaitForSeconds(60/bpm);
+            playerCanMove = true;
+            yield return new WaitForSeconds((60f / bpm) * 0.25f);
+            playerCanMove = false;
+            // playerAction = KeyCode.Escape;
+            playerAction = PlayerActions.NONE;
+            yield return new WaitForSeconds((60f / bpm) * 0.5f);
+            playerCanMove = true;
+            yield return new WaitForSeconds((60f / bpm) * 0.25f);
         }
     }
 
     
 
-    private IEnumerator PlayerTiming()
-    {
-        while (true)
-        {
-            playerCanMove = true;
-            yield return new WaitForSeconds((60/bpm)*0.1f);
-            playerCanMove = false;
-            // playerAction = KeyCode.Escape;
-            playerAction = PlayerActions.NONE;
-            yield return new WaitForSeconds((60 / bpm) * 0.8f);
-            playerCanMove = true;
-            yield return new WaitForSeconds((60 / bpm) * 0.1f);
-        }
-    }
+    // private IEnumerator PlayerTiming()
+    // {
+    //     while (true)
+    //     {
+    //         playerCanMove = true;
+    //         yield return new WaitForSeconds((60f / bpm) * 0.1f);
+    //         playerCanMove = false;
+    //         // playerAction = KeyCode.Escape;
+    //         playerAction = PlayerActions.NONE;
+    //         yield return new WaitForSeconds((60f / bpm) * 0.8f);
+    //         playerCanMove = true;
+    //         yield return new WaitForSeconds((60f / bpm) * 0.1f);
+    //     }
+    // }
 }

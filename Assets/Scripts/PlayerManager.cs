@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 public enum PlayerActions {
     UP = 0,
@@ -20,25 +20,39 @@ public enum Tools
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private int bagSize;
+    [SerializeField] public int bagSize;
     public int StoredBeets { get; set; }
     public Tools Tool { get; private set; }
     public Position pos = new Position(0, 0);
 
-    int[,] dirs = {
-        {0, 1},
-        {0, -1},
-        {-1, 0},
-        {1, 0},
+    public static Position[] dirs = {
+        new Position(0, 1),
+        new Position(0, -1),
+        new Position(-1, 0),
+        new Position(1, 0)
     };
 
-    // Start is called before the first frame update
+    public static PlayerManager Instance { get; private set; }
+
+    void Awake() 
+    {
+        if (Instance != null && Instance != this) 
+        {
+            Debug.Log("Destroying");
+            Destroy(this); 
+        } 
+        else 
+        { 
+            Instance = this; 
+            Debug.Log("instance set" + Instance);
+        } 
+    }
+
     void Start()
     {
         Tool = Tools.BECHE;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Switch Tool
@@ -61,7 +75,7 @@ public class PlayerManager : MonoBehaviour
         }
         
         // render position in scene
-        transform.position = new Vector3(pos.x, pos.y, 0);
+        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
     }
   
     bool Inputs()
@@ -94,20 +108,11 @@ public class PlayerManager : MonoBehaviour
 
     void Action()
     {
-        Position dir = new Position(
-                        dirs[(int)Clock.Instance.playerAction, 0],
-                        dirs[(int)Clock.Instance.playerAction, 1]);
+        Position dir = dirs[(int)Clock.Instance.playerAction];
         
         if(!pos.checkBorders(dir))
             return;
         
-        if (true)// (pos.getTileType(dir) == Tile.GROUND)
-        {
-            pos += dir;
-            // change player on screen
-        } else { // tile is field
-            // interact
-        }
-
+        MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
     }
 }
