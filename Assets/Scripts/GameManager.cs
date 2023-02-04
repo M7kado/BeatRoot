@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -25,15 +24,15 @@ public class GameManager : MonoBehaviour
             Debug.Log("instance set" + Instance);
         }
     }
-    // Start is called before the first frame update
     void Start()
     {
         timePassed = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
         timePassed += Time.deltaTime;
+        // TODO condition de victoire
+        // TODO condition de défaite
     }
 }

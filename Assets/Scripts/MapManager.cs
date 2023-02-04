@@ -73,11 +73,8 @@ public class MapManager : MonoBehaviour
     public static MapManager Instance { get; private set; }
 
 
-    // Start is called before the first frame update
     void Awake()
     {
-        // If there is an instance, and it's not me, delete myself.
-
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -112,30 +109,6 @@ public class MapManager : MonoBehaviour
                     tileObj.transform.position = new Vector3(i, j, 0);
                     mapObjects[i, j] = tileObj.GetComponent<Truck>();
                 }
-            }
-        }
-    }
-
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-    void CheckTileMap()
-    {
-        for (int i=0;i<mapHeight;i++)
-        {
-            for (int j = 0; j < mapWidth; j++)
-            {
-
             }
         }
     }

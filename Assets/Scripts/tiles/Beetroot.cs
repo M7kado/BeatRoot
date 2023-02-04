@@ -50,8 +50,6 @@ public class Beetroot : Clockable, Iinteractable
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
 
-        Debug.Log(String.Format("alive since {0}", Clock.Instance.Timer - birthTick));
-        Debug.Log(currentState);
         lastState = currentState;
     }
 
@@ -65,7 +63,6 @@ public class Beetroot : Clockable, Iinteractable
 
     public void Interact()
     {
-        Debug.Log("Interacted with field");
         if (birthTick == -1)
             birthTick = Clock.Instance.Timer;
         if (currentState == State.GROWN)

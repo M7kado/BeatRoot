@@ -48,13 +48,11 @@ public class PlayerManager : MonoBehaviour
         } 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         Tool = Tools.BECHE;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Switch Tool
@@ -115,15 +113,6 @@ public class PlayerManager : MonoBehaviour
         if(!pos.checkBorders(dir))
             return;
         
-        // if (pos.getTileType(dir) == TileType.GROUND)
-        // {
-        //     pos += dir;
-        //     // change player on screen
-        // } else { // tile is field
-        //     // interact
-        //     MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
-        // }
-
         MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
     }
 }
