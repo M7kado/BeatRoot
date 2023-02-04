@@ -11,9 +11,18 @@ public enum PlayerActions {
     NONE
 }
 
+public enum Tools
+{
+    BECHE,
+    SAC,
+    ARROSOIR
+}
+
 public class PlayerManager : MonoBehaviour
 {
-
+    [SerializeField] private int bagSize;
+    public int StoredBeets { get; set; }
+    public Tools Tool { get; private set; }
     public Position pos = new Position(0, 0);
 
     int[,] dirs = {
@@ -26,12 +35,26 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Tool = Tools.BECHE;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Switch Tool
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            Tool = Tools.BECHE;
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            Tool = Tools.SAC;
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            Tool = Tools.ARROSOIR;
+        }
+
         if (Inputs())
         {
             Action();

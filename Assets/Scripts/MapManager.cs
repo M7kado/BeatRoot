@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum Tile
+public enum TileType
 {
     FIELD,
     GROUND
@@ -37,12 +37,12 @@ public class Position
                 y + dir.y < MapManager.Instance.mapHeight;
     }
 
-    public Tile getTileType()
+    public TileType getTileType()
     {
         return MapManager.Instance.map[y, x];
     }
 
-    public Tile getTileType(Position dir)
+    public TileType getTileType(Position dir)
     {
         return MapManager.Instance.map[y + dir.y, x + dir.x];
     }
@@ -50,15 +50,20 @@ public class Position
 
 public class MapManager : MonoBehaviour
 {
+    [SerializeField] private GameObject fieldPrefab;
+    [SerializeField] private GameObject groundPrefab;
     public int mapWidth = 3;
     public int mapHeight = 3;
 
-    public Tile[,] map= 
+    public TileType[,] map= 
     {
-    {Tile.FIELD,Tile.FIELD,Tile.FIELD},
-    {Tile.FIELD,Tile.GROUND,Tile.FIELD},
-    {Tile.FIELD,Tile.FIELD,Tile.FIELD}
+    {TileType.GROUND,TileType.GROUND,TileType.FIELD},
+    {TileType.GROUND,TileType.GROUND,TileType.FIELD},
+    {TileType.FIELD,TileType.FIELD,TileType.FIELD}
     };
+
+
+    public GameObject[,] mapObjects;
 
     public static MapManager Instance { get; private set; }
 
@@ -77,6 +82,28 @@ public class MapManager : MonoBehaviour
             Instance = this;
             Debug.Log("instance set" + Instance);
         }
+        // Creating the mapObjects
+        mapObjects = new GameObject[mapWidth, mapHeight];
+        for(int i = 0; i< mapWidth; i++)
+        {
+            for (int j = 0; j < mapHeight; j++)
+            {
+                // Debug.Log("i: " + i + " j: " + j + " Type : " + map[i, j]);
+                if (map[i,j] == TileType.FIELD)
+                {
+                    GameObject tileObj = Instantiate(fieldPrefab);
+                    tileObj.transform.position = new Vector3(i, j, 0);
+                    tileObj.gameObject.SetActive(true);
+                    mapObjects[i,j] = tileObj;
+                }
+                else if(map[i,j] == TileType.GROUND)
+                {
+                    GameObject tileObj = Instantiate(groundPrefab);
+                    tileObj.transform.position = new Vector3(i, j, 0);
+                    mapObjects[i, j] = tileObj;
+                }
+            }
+        }
     }
 
 
@@ -89,5 +116,17 @@ public class MapManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+
+    void CheckTileMap()
+    {
+        for (int i=0;i<mapHeight;i++)
+        {
+            for (int j = 0; j < mapWidth; j++)
+            {
+
+            }
+        }
     }
 }
