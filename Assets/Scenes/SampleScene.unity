@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0318db59e6ee12c49b3541cfcbb0b706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldPrefab: {fileID: 5232517395060739645, guid: fe15ac2b34f788a429a0dd7ef7b4f4d6, type: 3}
+  fieldPrefab: {fileID: 5949734858644905146, guid: 61a98881b764a4e4f99dcd68f84409e7, type: 3}
   groundPrefab: {fileID: 5049184875192780931, guid: 23fd3b70273911047b73daaa10e81331, type: 3}
   mapWidth: 5
   mapHeight: 5

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public interface Iinteractable
 {
@@ -49,9 +50,12 @@ public class Beetroot : Clockable, Iinteractable
     {
         //Debug.Log(GetState(Clock.Instance.Timer));
         //animator.setfloat(GetState(Clock.Instance.Timer))
+
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
-    
+
+        Debug.Log(String.Format("alive since {0}", Clock.Instance.Timer - birthTick));
+        Debug.Log(currentState);
         lastState = currentState;
     }
 
@@ -63,18 +67,18 @@ public class Beetroot : Clockable, Iinteractable
         return State.ROTTEN;
     }
 
-<<<<<<< HEAD:Assets/Scripts/tiles/Beetroot.cs
     public void Interact()
     {
-        gameObject.SetActive(false);
-        // if (birthTick == -1)
-        //     birthTick = Clock.Instance.Timer;
-        // if (state == State.Grown)
-        //     player.StoredBeets++;
-        // if (state == State.Grown || state == State.Rotten)
-        //     birthTick = -1;
+        //gameObject.SetActive(false);
+        Debug.Log("Interacted with field");
+        if (birthTick == -1)
+            birthTick = Clock.Instance.Timer;
+        if (state == State.GROWN)
+            PlayerManager.Instance.StoredBeets++;
+        if (state == State.GROWN || state == State.ROTTEN)
+            birthTick = -1;
     }
-=======
+
     void RenderSprite()
     {
         if (currentState != lastState && currentState != State.GROWING)
@@ -90,5 +94,4 @@ public class Beetroot : Clockable, Iinteractable
 
     }
 
->>>>>>> origin/tiles:Assets/Scripts/Tile.cs
 }
