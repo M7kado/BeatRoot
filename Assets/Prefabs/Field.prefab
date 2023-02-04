@@ -97,5 +97,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32c9349704353241a684af1aeda4c3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growTime: 0
-  rotTime: 0
+  growTime: 10
+  rotTime: 10

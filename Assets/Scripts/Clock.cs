@@ -18,8 +18,9 @@ public abstract class Clockable : MonoBehaviour
 
 public class Clock : MonoBehaviour
 {
-
-    [SerializeField] private float bpm = 60;
+    
+    public float bpm { get; private set; }
+    
     public bool playerCanMove { get; private set; }
     public PlayerActions playerAction { get; set; } = PlayerActions.NONE;
 
@@ -29,6 +30,7 @@ public class Clock : MonoBehaviour
 
     void Awake() 
     {
+        bpm = 60;
         Timer = 0;
         // If there is an instance, and it's not me, delete myself.
         
@@ -55,6 +57,8 @@ public class Clock : MonoBehaviour
         StartCoroutine(PlayerTiming());
 
     }
+
+    
 
     public void Register(Clockable obj)
     {
