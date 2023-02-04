@@ -43,8 +43,11 @@ public class MapManager : MonoBehaviour
     {"Ground","Tile", "Ground","Tile", "Ground"},
     {"Ground","Tile", "Ground","Tile", "Ground"},
     {"Ground","Tile", "Ground","Tile", "Ground"},
-    {"Ground","Tile", "Ground","Tile", "Truck"},
+    {"Ground","Tile", "Ground","Tile", "Ground"},
+    {"Ground","Ground", "Ground","Ground", "Ground"},
     {"Ground","Ground", "Ground","Ground", "Truck"},
+    {"Ground","Tile", "Tile","Ground", "Truck"},
+    {"Ground","Tile", "Tile","Ground", "Ground"},
     };
 
     public Iinteractable[,] mapObjects;
