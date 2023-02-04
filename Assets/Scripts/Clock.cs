@@ -76,13 +76,13 @@ public class Clock : MonoBehaviour
                 e.Action();
             });
             playerCanMove = true;
-            yield return new WaitForSeconds((60f / bpm) * 0.15f);
+            yield return new WaitForSeconds((60f / bpm) * 0.25f);
             playerCanMove = false;
             // playerAction = KeyCode.Escape;
             playerAction = PlayerActions.NONE;
-            yield return new WaitForSeconds((60f / bpm) * 0.7f);
+            yield return new WaitForSeconds((60f / bpm) * 0.5f);
             playerCanMove = true;
-            yield return new WaitForSeconds((60f / bpm) * 0.15f);
+            yield return new WaitForSeconds((60f / bpm) * 0.25f);
         }
     }
 

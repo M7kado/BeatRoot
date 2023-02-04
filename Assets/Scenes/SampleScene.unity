@@ -182,8 +182,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0318db59e6ee12c49b3541cfcbb0b706, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 10
-  mapHeight: 3
+  fieldPrefab: {fileID: 5232517395060739645, guid: fe15ac2b34f788a429a0dd7ef7b4f4d6, type: 3}
+  groundPrefab: {fileID: 5049184875192780931, guid: 23fd3b70273911047b73daaa10e81331, type: 3}
+  mapWidth: 5
+  mapHeight: 5
 --- !u!82 &13811299
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1005,6 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55373b691cbdc64a9dbf5cf7372d78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bagSize: 0
 --- !u!212 &1787429602
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1065,7 +1068,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787429600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
