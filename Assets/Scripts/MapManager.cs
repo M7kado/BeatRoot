@@ -37,17 +37,22 @@ public class MapManager : MonoBehaviour
     public int mapWidth = 3;
     public int mapHeight = 3;
 
+    public Vector2 playerSpawnPoint;
+    public Vector2 mapOffset;
+
     // MUST MATCH PREFAB NAME
     public String[,] map= 
     {
-    {"Ground","Tile", "Ground","Tile", "Ground"},
-    {"Ground","Tile", "Ground","Tile", "Ground"},
-    {"Ground","Tile", "Ground","Tile", "Ground"},
-    {"Ground","Tile", "Ground","Tile", "Ground"},
-    {"Ground","Ground", "Ground","Ground", "Ground"},
-    {"Ground","Ground", "Ground","Ground", "Truck"},
-    {"Ground","Tile", "Tile","Ground", "Truck"},
-    {"Ground","Tile", "Tile","Ground", "Ground"},
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
+    {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
+    {"Tile","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
+    {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
+    {"Tile","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
+    {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
     };
 
     public Iinteractable[,] mapObjects;
@@ -73,10 +78,16 @@ public class MapManager : MonoBehaviour
             for (int j = 0; j < mapHeight; j++)
             {
                 GameObject tileObj = Instantiate(Resources.Load<GameObject>("Prefabs/" + map[i,j]));
-                tileObj.transform.position = new Vector3(i, j, 0);
+                tileObj.transform.position = new Vector2(i, j) + mapOffset;
                 tileObj.gameObject.SetActive(true);
                 mapObjects[i,j] = tileObj.GetComponent<Iinteractable>();
             }
         }
+
+    }
+
+    void Start()
+    {
+        PlayerManager.Instance.transform.position = new Vector3(playerSpawnPoint.x, playerSpawnPoint.y, -1);
     }
 }
