@@ -59,6 +59,8 @@ public class Clock : MonoBehaviour
 
     private IEnumerator Tick()
     {
+        GetComponent<AudioSource>().Play();
+
         while (true)
         {
             objects.ForEach(delegate(Clockable e)
@@ -66,13 +68,13 @@ public class Clock : MonoBehaviour
                 e.Action();
             });
             playerCanMove = true;
-            yield return new WaitForSeconds((60f / bpm) * 0.1f);
+            yield return new WaitForSeconds((60f / bpm) * 0.15f);
             playerCanMove = false;
             // playerAction = KeyCode.Escape;
             playerAction = PlayerActions.NONE;
-            yield return new WaitForSeconds((60f / bpm) * 0.8f);
+            yield return new WaitForSeconds((60f / bpm) * 0.7f);
             playerCanMove = true;
-            yield return new WaitForSeconds((60f / bpm) * 0.1f);
+            yield return new WaitForSeconds((60f / bpm) * 0.15f);
         }
     }
 
