@@ -1,14 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-public enum TileType
-{
-    FIELD,
-    GROUND,
-    TRUCK,
-}
+using System;
 
 public class Position
 {
@@ -37,36 +30,22 @@ public class Position
                 y + dir.y >= 0 &&
                 y + dir.y < MapManager.Instance.mapHeight;
     }
-
-    public TileType getTileType()
-    {
-        return MapManager.Instance.map[y, x];
-    }
-
-    public TileType getTileType(Position dir)
-    {
-        return MapManager.Instance.map[y + dir.y, x + dir.x];
-    }
 }
 
 public class MapManager : MonoBehaviour
 {
-    [SerializeField] private GameObject fieldPrefab;
-    [SerializeField] private GameObject groundPrefab;
-    [SerializeField] private GameObject truckPrefab;
-
     public int mapWidth = 3;
     public int mapHeight = 3;
 
-    public TileType[,] map= 
+    // MUST MATCH PREFAB NAME
+    public String[,] map= 
     {
-    {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
-    {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
-    {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
-    {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.TRUCK},
-    {TileType.GROUND,TileType.GROUND, TileType.GROUND,TileType.GROUND, TileType.TRUCK},
+    {"Ground","Tile", "Ground","Tile", "Ground"},
+    {"Ground","Tile", "Ground","Tile", "Ground"},
+    {"Ground","Tile", "Ground","Tile", "Ground"},
+    {"Ground","Tile", "Ground","Tile", "Truck"},
+    {"Ground","Ground", "Ground","Ground", "Truck"},
     };
-
 
     public Iinteractable[,] mapObjects;
 
@@ -90,25 +69,10 @@ public class MapManager : MonoBehaviour
         {
             for (int j = 0; j < mapHeight; j++)
             {
-                if (map[i,j] == TileType.FIELD)
-                {
-                    GameObject tileObj = Instantiate(fieldPrefab);
-                    tileObj.transform.position = new Vector3(i, j, 0);
-                    tileObj.gameObject.SetActive(true);
-                    mapObjects[i,j] = tileObj.GetComponent<Beetroot>();
-                }
-                else if(map[i,j] == TileType.GROUND)
-                {
-                    GameObject tileObj = Instantiate(groundPrefab);
-                    tileObj.transform.position = new Vector3(i, j, 0);
-                    mapObjects[i, j] = tileObj.GetComponent<Ground>();
-                }
-                else if(map[i,j] == TileType.TRUCK)
-                {
-                    GameObject tileObj = Instantiate(truckPrefab);
-                    tileObj.transform.position = new Vector3(i, j, 0);
-                    mapObjects[i, j] = tileObj.GetComponent<Truck>();
-                }
+                GameObject tileObj = Instantiate(Resources.Load<GameObject>("Prefabs/" + map[i,j]));
+                tileObj.transform.position = new Vector3(i, j, 0);
+                tileObj.gameObject.SetActive(true);
+                mapObjects[i,j] = tileObj.GetComponent<Iinteractable>();
             }
         }
     }
