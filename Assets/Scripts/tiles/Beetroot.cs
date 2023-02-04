@@ -86,7 +86,6 @@ public class Beetroot : Clockable, Iinteractable
         if (currentState == State.GROWING)
         {
             percentageGrowing = (Clock.Instance.Timer - birthTick) / (float) growthTime;
-            Debug.Log("percentageGrowing = "+percentageGrowing);
             sr.sprite = growingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)];
         }
 

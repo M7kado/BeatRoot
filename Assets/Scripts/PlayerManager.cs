@@ -23,13 +23,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public int bagSize;
     public int StoredBeets { get; set; }
     public Tools Tool { get; private set; }
-    public Position pos = new Position(0, 0);
+    public Vector2 pos = new Vector2(0, 0);
 
-    public static Position[] dirs = {
-        new Position(0, 1),
-        new Position(0, -1),
-        new Position(-1, 0),
-        new Position(1, 0)
+    public static Vector2[] dirs = {
+        new Vector2(0, 1),
+        new Vector2(0, -1),
+        new Vector2(-1, 0),
+        new Vector2(1, 0)
     };
 
     public static PlayerManager Instance { get; private set; }
@@ -75,7 +75,8 @@ public class PlayerManager : MonoBehaviour
         }
         
         // render position in scene
-        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        transform.position = new Vector3(MapManager.Instance.renderOffset.x + pos.x,
+                                    MapManager.Instance.renderOffset.y + pos.y, transform.position.z);
     }
   
     bool Inputs()
@@ -108,11 +109,11 @@ public class PlayerManager : MonoBehaviour
 
     void Action()
     {
-        Position dir = dirs[(int)Clock.Instance.playerAction];
+        Vector2 dir = dirs[(int)Clock.Instance.playerAction];
         
-        if(!pos.checkBorders(dir))
+        if(!MapManager.Instance.checkBorders(pos + dir))
             return;
         
-        MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
+        MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
     }
 }
