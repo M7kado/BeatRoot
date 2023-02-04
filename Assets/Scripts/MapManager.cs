@@ -50,13 +50,15 @@ public class Position
 
 public class MapManager : MonoBehaviour
 {
+    [SerializeField] private GameObject fieldPrefab;
+    [SerializeField] private GameObject groundPrefab;
     public int mapWidth = 3;
     public int mapHeight = 3;
 
     public TileType[,] map= 
     {
-    {TileType.FIELD,TileType.FIELD,TileType.FIELD},
-    {TileType.FIELD,TileType.GROUND,TileType.FIELD},
+    {TileType.GROUND,TileType.GROUND,TileType.FIELD},
+    {TileType.GROUND,TileType.GROUND,TileType.FIELD},
     {TileType.FIELD,TileType.FIELD,TileType.FIELD}
     };
 
@@ -79,6 +81,28 @@ public class MapManager : MonoBehaviour
         {
             Instance = this;
             Debug.Log("instance set" + Instance);
+        }
+        // Creating the mapObjects
+        mapObjects = new GameObject[mapWidth, mapHeight];
+        for(int i = 0; i< mapWidth; i++)
+        {
+            for (int j = 0; j < mapHeight; j++)
+            {
+                // Debug.Log("i: " + i + " j: " + j + " Type : " + map[i, j]);
+                if (map[i,j] == TileType.FIELD)
+                {
+                    GameObject tileObj = Instantiate(fieldPrefab);
+                    tileObj.transform.position = new Vector3(i, j, 0);
+                    tileObj.gameObject.SetActive(true);
+                    mapObjects[i,j] = tileObj;
+                }
+                else if(map[i,j] == TileType.GROUND)
+                {
+                    GameObject tileObj = Instantiate(groundPrefab);
+                    tileObj.transform.position = new Vector3(i, j, 0);
+                    mapObjects[i, j] = tileObj;
+                }
+            }
         }
     }
 
