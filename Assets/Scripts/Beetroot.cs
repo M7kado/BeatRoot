@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : Clockable
+public class Beetroot : Clockable
 {
     public enum State { Empty, Growing, Grown, Rotten}
     State state = new();
