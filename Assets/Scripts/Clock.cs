@@ -16,7 +16,12 @@ public abstract class Clockable : MonoBehaviour
 
 public class Clock : MonoBehaviour
 {
+
+    [SerializeField] private float bpm = 120;
+    public bool playerCanMove { get; private set; }
     public static Clock Instance { get; private set; }
+    public KeyCode playerAction { get; set; } = KeyCode.Escape;
+
     void Awake() 
     { 
         // If there is an instance, and it's not me, delete myself.
@@ -40,6 +45,8 @@ public class Clock : MonoBehaviour
         Debug.Log("parent clock start");
         objects = new List<Clockable>();
         StartCoroutine(Tick());
+        StartCoroutine(PlayerTiming());
+
     }
 
     public void Register(Clockable obj)
@@ -61,7 +68,23 @@ public class Clock : MonoBehaviour
             {
                 e.Action();
             });
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(60/bpm);
+        }
+    }
+
+    
+
+    private IEnumerator PlayerTiming()
+    {
+        while (true)
+        {
+            playerCanMove = true;
+            yield return new WaitForSeconds((60/bpm)*0.1f);
+            playerCanMove = false;
+            playerAction = KeyCode.Escape;
+            yield return new WaitForSeconds((60 / bpm) * 0.8f);
+            playerCanMove = true;
+            yield return new WaitForSeconds((60 / bpm) * 0.1f);
         }
     }
 }
