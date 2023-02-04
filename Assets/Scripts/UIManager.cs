@@ -8,7 +8,8 @@ public class UIManager : MonoBehaviour
 {
 
     public TextMeshProUGUI remainingTime;
-    public TextMeshProUGUI beetrootCounter;
+    public TextMeshProUGUI beetrootTruckCounter;
+    public TextMeshProUGUI beetrootBagCounter;
 
     public static UIManager Instance { get; private set; }
 
@@ -35,7 +36,8 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         remainingTime.SetText(String.Format("{0}", GameManager.Instance.timeRemaining));
-        beetrootCounter.SetText(String.Format("{0} / {1}", PlayerManager.Instance.StoredBeets, GameManager.Instance.BeetrootNeeded));
+        beetrootTruckCounter.SetText(String.Format("Collected : {0} / {1}", GameManager.Instance.BeetrootCollected, GameManager.Instance.BeetrootNeeded));
+        beetrootBagCounter.SetText(String.Format("Holding : {0} / {1}", PlayerManager.Instance.StoredBeets, PlayerManager.Instance.bagSize));
         
     }
 }

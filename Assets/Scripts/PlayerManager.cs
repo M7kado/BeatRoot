@@ -20,7 +20,7 @@ public enum Tools
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private int bagSize;
+    [SerializeField] public int bagSize;
     public int StoredBeets { get; set; }
     public Tools Tool { get; private set; }
     public Position pos = new Position(0, 0);

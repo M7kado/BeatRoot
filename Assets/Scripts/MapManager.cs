@@ -6,7 +6,8 @@ using UnityEngine;
 public enum TileType
 {
     FIELD,
-    GROUND
+    GROUND,
+    TRUCK,
 }
 
 public class Position
@@ -52,6 +53,8 @@ public class MapManager : MonoBehaviour
 {
     [SerializeField] private GameObject fieldPrefab;
     [SerializeField] private GameObject groundPrefab;
+    [SerializeField] private GameObject truckPrefab;
+
     public int mapWidth = 3;
     public int mapHeight = 3;
 
@@ -60,8 +63,8 @@ public class MapManager : MonoBehaviour
     {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
     {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
     {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
-    {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.GROUND},
-    {TileType.GROUND,TileType.GROUND, TileType.GROUND,TileType.GROUND, TileType.GROUND},
+    {TileType.GROUND,TileType.FIELD, TileType.GROUND,TileType.FIELD, TileType.TRUCK},
+    {TileType.GROUND,TileType.GROUND, TileType.GROUND,TileType.GROUND, TileType.TRUCK},
     };
 
 
@@ -90,7 +93,6 @@ public class MapManager : MonoBehaviour
         {
             for (int j = 0; j < mapHeight; j++)
             {
-                // Debug.Log("i: " + i + " j: " + j + " Type : " + map[i, j]);
                 if (map[i,j] == TileType.FIELD)
                 {
                     GameObject tileObj = Instantiate(fieldPrefab);
@@ -103,6 +105,12 @@ public class MapManager : MonoBehaviour
                     GameObject tileObj = Instantiate(groundPrefab);
                     tileObj.transform.position = new Vector3(i, j, 0);
                     mapObjects[i, j] = tileObj.GetComponent<Ground>();
+                }
+                else if(map[i,j] == TileType.TRUCK)
+                {
+                    GameObject tileObj = Instantiate(truckPrefab);
+                    tileObj.transform.position = new Vector3(i, j, 0);
+                    mapObjects[i, j] = tileObj.GetComponent<Truck>();
                 }
             }
         }

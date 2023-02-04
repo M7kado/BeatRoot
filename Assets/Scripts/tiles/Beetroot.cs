@@ -39,7 +39,7 @@ public class Beetroot : Clockable, Iinteractable
         sr.sprite = sprites[0];
         numberStatesGrowing = growingSprites.Length;
     }
-    // Update is called once per frame
+    // DEBUG
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P)) { birthTick = Clock.Instance.Timer; Debug.Log("KeyCode.P pressed"); }
@@ -47,9 +47,6 @@ public class Beetroot : Clockable, Iinteractable
 
     public override void Action()
     {
-        //Debug.Log(GetState(Clock.Instance.Timer));
-        //animator.setfloat(GetState(Clock.Instance.Timer))
-
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
 
@@ -68,12 +65,17 @@ public class Beetroot : Clockable, Iinteractable
 
     public void Interact()
     {
-        //gameObject.SetActive(false);
         Debug.Log("Interacted with field");
         if (birthTick == -1)
             birthTick = Clock.Instance.Timer;
         if (currentState == State.GROWN)
+        {
             PlayerManager.Instance.StoredBeets++;
+            PlayerManager.Instance.StoredBeets = 
+                PlayerManager.Instance.StoredBeets >= PlayerManager.Instance.bagSize
+                     ? PlayerManager.Instance.bagSize
+                     : PlayerManager.Instance.StoredBeets;
+        }
         if (currentState == State.GROWN || currentState == State.ROTTEN)
             birthTick = -1;
     }
