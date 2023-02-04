@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class Tile : Clockable
 {
-    enum State { Empty, Seed, Growing, Grown, Rotten}
+    public enum State { Empty, Growing, Grown, Rotten}
     State state = new();
-    int birthTick;
-    int nextStateTick;
+    int birthTick = -1;
+    [SerializeField] int growTime;
+    [SerializeField] int rotTime;
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P)) { birthTick = Clock.Instance.Timer; }
     }
 
     public override void Action()
     {
-        switch (state)
-        {
-            case State.Empty:
-                break;
-            case State.Rotten:
-                break;
-            default:
-                state += 1;
-                break;
-        }
-        Debug.Log(state);
+        Debug.Log(GetState(Clock.Instance.Timer));
+        //animator.setfloat(GetState(Clock.Instance.Timer))
+    }
+
+    public State GetState(int currentTick)
+    {
+        if (birthTick == -1) { return State.Empty; }
+        if (currentTick - birthTick <= growTime) { return State.Growing; }
+        if (currentTick - birthTick <= rotTime + growTime) { return State.Grown; }
+        return State.Rotten;
     }
 }
