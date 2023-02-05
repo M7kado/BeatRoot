@@ -137,12 +137,14 @@ public class PlayerManager : MonoBehaviour
         if(!MapManager.Instance.checkBorders(pos + dir))
             return;
         
-        MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
-
         // water propagation
         if (Tool == Tools.ARROSOIR 
             && MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)] is Beetroot)
             PropagateWater(pos+dir);
+            
+        // we do water propagation before ground otherwise we get out of bound on borders            
+        MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
+
     }
 
     void AnimationTool()

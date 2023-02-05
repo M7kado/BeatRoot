@@ -297,6 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeInSeconds: 300
   BeetrootNeeded: 50
+  TimeToDry: 15
   BeetrootCollected: 0
 --- !u!1 &156000054
 GameObject:

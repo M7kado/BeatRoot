@@ -18,7 +18,7 @@ public class Beetroot : Clockable, Iinteractable
         ROTTEN =3
     }  
     int birthTick = -1; // time planted
-    int waterTick = -1; // time planted
+    int waterTick = 0; // time watered
 
     // game variables
     [SerializeField] int growthTime;
@@ -26,8 +26,10 @@ public class Beetroot : Clockable, Iinteractable
 
     private float percentageGrowing; 
 
-    [SerializeField] Sprite[] sprites; 
+    [SerializeField] Sprite[] sprites;
+    [SerializeField] Sprite[] drySprites;
     [SerializeField] Sprite[] growingSprites;
+    [SerializeField] Sprite[] dryGrowingSprites;
     [SerializeField] Sprite[] grownSprites;
     private int numberStatesGrowing;
     private int numberStatesGrown;
@@ -62,11 +64,15 @@ public class Beetroot : Clockable, Iinteractable
         lastState = currentState;
     }
 
+    bool isDry()
+    {
+        return GameManager.Instance.TimeToDry > 0 
+            && Clock.Instance.Timer - waterTick > GameManager.Instance.TimeToDry;
+    }
     public State GetState(int currentTick)
     {
         // if field is dry stall the growth cycle
-        if (GameManager.Instance.TimeToDry > 0 
-            && currentTick - waterTick > GameManager.Instance.TimeToDry)
+        if (isDry() && birthTick >= 0)
             birthTick++;
 
         if (birthTick == -1) { return State.EMPTY; }
@@ -107,12 +113,14 @@ public class Beetroot : Clockable, Iinteractable
     {
         if (currentState != lastState && currentState != State.GROWING && currentState != State.GROWN)
         {
-            sr.sprite = sprites[(int)currentState];
+            sr.sprite = isDry() ? drySprites[(int)currentState] : sprites[(int)currentState];
         }
         if (currentState == State.GROWING)
         {
             percentageGrowing = (Clock.Instance.Timer - birthTick) / (float) growthTime;
-            sr.sprite = growingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)];
+            sr.sprite = isDry() 
+                        ? dryGrowingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)]
+                        : growingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)];
         }
         if (currentState == State.GROWN)
         {
