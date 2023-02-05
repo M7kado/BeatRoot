@@ -20,13 +20,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI beetrootBagCounter;
 
     // Tools
-    private PlayerManager player;
-
     [SerializeField] private Sprite[] icons;
 
-    [SerializeField] private GameObject[] tools;
-
-    private Image[] toolImages;
+    [SerializeField] private Image[] toolImages;
 
     public static UIManager Instance { get; private set; }
 
@@ -46,16 +42,10 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         bpm = Clock.Instance.bpm;
-        player = PlayerManager.Instance;
-        toolImages = new Image[tools.Length];
         beatImage = beat.GetComponent<Image>();
-        for (int i= 0; i < tools.Length; i++)
+        for (int i = toolImages.Length - 1; i>= PlayerManager.Instance.toolBeltSize; i--)
         {
-            toolImages[i] = tools[i].GetComponent<Image>();
-        }
-        for (int i = tools.Length - 1; i>= player.toolBeltSize; i--)
-        {
-            tools[i].SetActive(false);
+            toolImages[i].gameObject.SetActive(false);
         }
     }
 
@@ -86,12 +76,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdateSprites()
     {
-        for (int i = 0; i < tools.Length; i++)
+        for (int i = 0; i < toolImages.Length; i++)
         {
             toolImages[i].sprite = icons[i];
             toolImages[i].transform.localScale = Vector3.one;
         }
-        int j = (int)player.Tool;
+        int j = (int)PlayerManager.Instance.Tool;
         toolImages[j].sprite = icons[j + 4];
         toolImages[j].transform.localScale *= 1.5f;
     }
