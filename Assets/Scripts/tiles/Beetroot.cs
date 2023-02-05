@@ -10,6 +10,11 @@ public interface Iinteractable
 
 public class Beetroot : Clockable, Iinteractable
 {
+    System.Random rand = new System.Random();
+    // RNG
+    int growRNGThreshold = 10;
+    int waterRNGThreshold = 10;
+
     public enum State 
     { 
         EMPTY = 0,
@@ -17,7 +22,10 @@ public class Beetroot : Clockable, Iinteractable
         GROWN = 2,
         ROTTEN =3
     }  
-    int birthTick = -1;
+    int birthTick = -1; // time planted
+    int waterTick = 0; // time watered
+
+    // game variables
     [SerializeField] int growthTime;
     [SerializeField] int rotTime;
 
@@ -28,8 +36,10 @@ public class Beetroot : Clockable, Iinteractable
 
     private float percentageGrowing; 
 
-    [SerializeField] Sprite[] sprites; 
+    [SerializeField] Sprite[] sprites;
+    [SerializeField] Sprite[] drySprites;
     [SerializeField] Sprite[] growingSprites;
+    [SerializeField] Sprite[] dryGrowingSprites;
     [SerializeField] Sprite[] grownSprites;
     private int numberStatesGrowing;
     private int numberStatesGrown;
@@ -54,19 +64,37 @@ public class Beetroot : Clockable, Iinteractable
     // DEBUG
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) { birthTick = Clock.Instance.Timer; Debug.Log("KeyCode.P pressed"); }
+        if (Input.GetKeyDown(KeyCode.P)) { 
+            birthTick = Clock.Instance.Timer; 
+            waterTick = Clock.Instance.Timer;
+            Debug.Log("KeyCode.P pressed"); }
     }
 
     public override void Action()
     {
+        // some RNG
+        // I think this one is creating obscure 
+        if (rand.Next(101) < growRNGThreshold 
+            && birthTick > -1 &&Clock.Instance.Timer - birthTick > 5) birthTick++;
+        if (rand.Next(101) < waterRNGThreshold) waterTick++;
+
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
 
         lastState = currentState;
     }
 
+    bool isDry()
+    {
+        return GameManager.Instance.TimeToDry > 0 
+            && Clock.Instance.Timer - waterTick > GameManager.Instance.TimeToDry;
+    }
     public State GetState(int currentTick)
     {
+        // if field is dry stall the growth cycle
+        if (isDry() && birthTick >= 0)
+            birthTick++;
+
         if (birthTick == -1) { return State.EMPTY; }
         if (currentTick - birthTick < growthTime) { return State.GROWING; }
         if (currentTick - birthTick <= rotTime + growthTime) { return State.GROWN; }
@@ -77,8 +105,15 @@ public class Beetroot : Clockable, Iinteractable
     {
         AnimationPlayer();
         StartCoroutine(ControlIconOverField());
+        
+        if (PlayerManager.Instance.Tool == Tools.ARROSOIR) {
+            waterTick = Clock.Instance.Timer;
+            return;
+        }
+
+        if (PlayerManager.Instance.Tool != Tools.SAC) return;
         if (birthTick == -1)
-            birthTick = Clock.Instance.Timer;
+            birthTick = Clock.Instance.Timer;// -1; // -1 =obscure buxfix with RNG creating negative difference
         if (currentState == State.GROWN)
         {
             PlayerManager.Instance.StoredBeets++;
@@ -100,12 +135,14 @@ public class Beetroot : Clockable, Iinteractable
     {
         if (currentState != lastState && currentState != State.GROWING && currentState != State.GROWN)
         {
-            sr.sprite = sprites[(int)currentState];
+            sr.sprite = isDry() ? drySprites[(int)currentState] : sprites[(int)currentState];
         }
         if (currentState == State.GROWING)
         {
             percentageGrowing = (Clock.Instance.Timer - birthTick) / (float) growthTime;
-            sr.sprite = growingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)];
+            sr.sprite = isDry() 
+                        ? dryGrowingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)]
+                        : growingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)];
         }
         if (currentState == State.GROWN)
         {
