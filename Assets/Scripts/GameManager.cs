@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public int currentLvl = 0;
     public int TimeInSeconds = 300;
     public int BeetrootNeeded = 50;
     public int BeetrootCollected = 0;
@@ -31,8 +33,20 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        // Dev Tool
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            BeetrootCollected += 10;
+        }
         timePassed += Time.deltaTime;
-        // TODO condition de victoire
-        // TODO condition de défaite
+        if (BeetrootCollected >= BeetrootNeeded)
+        {
+            currentLvl += 1;
+            SceneManager.LoadScene("LoadingScreen");
+        }
+        if (timeRemaining <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
     }
 }

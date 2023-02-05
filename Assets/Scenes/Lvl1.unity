@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bagSize: 10
-  toolBeltSize: 2
+  toolBeltSize: 4
 --- !u!1 &1263664270
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,6 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e83001455641d124bb99320e0b5f6b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLvl: 0
   TimeInSeconds: 300
   BeetrootNeeded: 50
   BeetrootCollected: 0
@@ -588,12 +589,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2073250073924920031, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 2073250073994263223, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2073250073994263223, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2073250074036917917, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2073250074658753216, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
@@ -726,6 +735,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2073250075049419525, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
       propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169746612139363850, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
+      propertyPath: m_ChildForceExpandWidth
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
