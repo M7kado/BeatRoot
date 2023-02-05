@@ -66,7 +66,9 @@ public class Beetroot : Clockable, Iinteractable
     public override void Action()
     {
         // some RNG
-        if (rand.Next(101) < growRNGThreshold) birthTick++;
+        // I think this one is creating obscure 
+        if (rand.Next(101) < growRNGThreshold 
+            && birthTick > -1 &&Clock.Instance.Timer - birthTick > 5) birthTick++;
         if (rand.Next(101) < waterRNGThreshold) waterTick++;
 
         currentState = GetState(Clock.Instance.Timer);
@@ -102,7 +104,7 @@ public class Beetroot : Clockable, Iinteractable
 
         if (PlayerManager.Instance.Tool != Tools.SAC) return;
         if (birthTick == -1)
-            birthTick = Clock.Instance.Timer;
+            birthTick = Clock.Instance.Timer;// -1; // -1 =obscure buxfix with RNG creating negative difference
         if (currentState == State.GROWN)
         {
             PlayerManager.Instance.StoredBeets++;

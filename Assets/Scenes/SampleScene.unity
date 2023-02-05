@@ -298,6 +298,7 @@ MonoBehaviour:
   TimeInSeconds: 300
   BeetrootNeeded: 50
   TimeToDry: 15
+  LeavesRNG: 1
   BeetrootCollected: 0
 --- !u!1 &156000054
 GameObject:
@@ -684,7 +685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1239405604227062559, guid: 3077f4916579cdf4db418abb3c84f466, type: 3}
       propertyPath: toolBeltSize
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3077f4916579cdf4db418abb3c84f466, type: 3}
