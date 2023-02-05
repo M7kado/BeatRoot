@@ -10,6 +10,11 @@ public interface Iinteractable
 
 public class Beetroot : Clockable, Iinteractable
 {
+    System.Random rand = new System.Random();
+    // RNG
+    int growRNGThreshold = 10;
+    int waterRNGThreshold = 10;
+
     public enum State 
     { 
         EMPTY = 0,
@@ -52,11 +57,17 @@ public class Beetroot : Clockable, Iinteractable
     // DEBUG
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) { birthTick = Clock.Instance.Timer; Debug.Log("KeyCode.P pressed"); }
+        if (Input.GetKeyDown(KeyCode.P)) { 
+            birthTick = Clock.Instance.Timer; 
+            waterTick = Clock.Instance.Timer;
+            Debug.Log("KeyCode.P pressed"); }
     }
 
     public override void Action()
     {
+        // some RNG
+        if (rand.Next(101) < growRNGThreshold) birthTick++;
+        if (rand.Next(101) < waterRNGThreshold) waterTick++;
 
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
