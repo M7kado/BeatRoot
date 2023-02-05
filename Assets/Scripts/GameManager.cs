@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int currentLvl = 0;
+    public int currentLvl = 1;
     public int TimeInSeconds = 300;
     public int BeetrootNeeded = 50;
     public int BeetrootCollected = 0;
@@ -36,17 +36,23 @@ public class GameManager : MonoBehaviour
         // Dev Tool
         if (Input.GetKeyDown(KeyCode.B))
         {
-            BeetrootCollected += 10;
+            BeetrootCollected += BeetrootNeeded;
         }
         timePassed += Time.deltaTime;
         if (BeetrootCollected >= BeetrootNeeded)
         {
-            currentLvl += 1;
-            SceneManager.LoadScene("LoadingScreen");
+            LoadNextLvl();
         }
         if (timeRemaining <= 0)
         {
             SceneManager.LoadScene("GameOver");
         }
+    }
+
+    public void LoadNextLvl()
+    {
+        Debug.Log("lvl : " + currentLvl);
+        SceneManager.LoadScene("LoadingScreen");
+
     }
 }

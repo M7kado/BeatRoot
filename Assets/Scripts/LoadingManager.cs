@@ -11,15 +11,30 @@ public class LoadingManager : MonoBehaviour
     [SerializeField] private Slider loadBar;
     [SerializeField] private TMP_Text txt;
     [SerializeField] private GameObject[] loadingScreens;
+    private int nextLvl;
     // Start is called before the first frame update
     void Start()
     {
+        
         foreach (GameObject loading in loadingScreens)
         {
             loading.SetActive(false);
         }
-        loadingScreens[GameManager.Instance.currentLvl].SetActive(true);
-        StartCoroutine(Loading(3f));
+        Debug.Log("Loading game manager : " + GameManager.Instance.currentLvl);
+        if (GameManager.Instance.currentLvl == 0)
+        {
+            nextLvl = 1;
+            loadingScreens[0].SetActive(true);
+        }
+        else
+        {
+            nextLvl = GameManager.Instance.currentLvl + 1;
+            loadingScreens[GameManager.Instance.currentLvl].SetActive(true);
+        }
+        if (nextLvl <= 4)
+            StartCoroutine(Loading(1f));
+        else
+            loaded = false;
     }
 
     // Update is called once per frame
@@ -27,7 +42,7 @@ public class LoadingManager : MonoBehaviour
     {
         if (loaded && Input.anyKeyDown)
         {
-            SceneManager.LoadScene(GameManager.Instance.currentLvl);
+            SceneManager.LoadScene("Lvl"+(nextLvl));
         }
     }
 
@@ -42,5 +57,14 @@ public class LoadingManager : MonoBehaviour
         }
         txt.text = "Press any key to continue";
         loaded = true;
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

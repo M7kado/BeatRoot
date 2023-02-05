@@ -1,10 +1,19 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    // Menus
+    [SerializeField] private GameObject pauseContainer;
+    [SerializeField] private GameObject settingsContainer;
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private AudioSource music;
+    private bool paused;
+
     // Beat Slider
     [SerializeField] private Slider[] tempoSliders;
     [SerializeField] private Sprite beatSpritesOFF;
@@ -41,6 +50,8 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        pauseContainer.SetActive(false);
+        settingsContainer.SetActive(false);
         bpm = Clock.Instance.bpm;
         beatImage = beat.GetComponent<Image>();
         for (int i = toolImages.Length - 1; i>= PlayerManager.Instance.toolBeltSize; i--)
@@ -51,6 +62,13 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (paused)
+                Unpause();
+            else
+                Pause();
+        }
         // Beat
         beatTime += Time.deltaTime;
 
@@ -84,5 +102,44 @@ public class UIManager : MonoBehaviour
         int j = (int)PlayerManager.Instance.Tool;
         toolImages[j].sprite = icons[j + 4];
         toolImages[j].transform.localScale *= 1.5f;
+    }
+
+    // Menus
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        music.Pause();
+        pauseContainer.SetActive(true);
+        paused = true;
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+        music.UnPause();
+        pauseContainer.SetActive(false);
+        settingsContainer.SetActive(false);
+        paused = false;
+    }
+
+    public void Settings()
+    {
+        settingsContainer.SetActive(!settingsContainer.activeSelf);
+        pauseContainer.SetActive(!pauseContainer.activeSelf);
+    }
+    public void Exit()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void SetMusicVolume(float musicVolume)
+    {
+        audioMixer.SetFloat("MusicVolume", musicVolume);
+    }
+
+    public void SetEffectsVolume(float effectsVolume)
+    {
+        audioMixer.SetFloat("EffectsVolume", effectsVolume);
     }
 }

@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e83001455641d124bb99320e0b5f6b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLvl: 1
   TimeInSeconds: 300
   BeetrootNeeded: 50
   BeetrootCollected: 0
@@ -1462,6 +1463,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693d7db99f4c3434eb66752fe736d8af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseContainer: {fileID: 0}
+  settingsContainer: {fileID: 0}
+  audioMixer: {fileID: 0}
+  music: {fileID: 0}
   tempoSliders:
   - {fileID: 1201074612}
   - {fileID: 1786055319}
