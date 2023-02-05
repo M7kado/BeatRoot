@@ -105,7 +105,7 @@ MonoBehaviour:
   - {fileID: -188627695, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
   - {fileID: -188627695, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
   growingSprites:
-  - {fileID: -154988581, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
+  - {fileID: -1419096862, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
   - {fileID: -1419096862, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
   - {fileID: -1065376044, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
   - {fileID: 2113226248, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}

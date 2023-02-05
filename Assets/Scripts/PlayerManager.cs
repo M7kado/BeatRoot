@@ -16,7 +16,7 @@ public enum Tools
     SAC,
     ARROSOIR,
     RATEAU,
-    BECHE
+    BECHE,
 }
 
 public class PlayerManager : MonoBehaviour
@@ -138,6 +138,11 @@ public class PlayerManager : MonoBehaviour
             return;
         
         MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
+
+        // water propagation
+        if (Tool == Tools.ARROSOIR 
+            && MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)] is Beetroot)
+            PropagateWater(pos+dir);
     }
 
     void AnimationTool()
@@ -145,4 +150,13 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("player action : " + Clock.Instance.playerAction);
     }
 
+    void PropagateWater(Vector2 pos)
+    {
+        foreach (var dir in dirs)
+        {
+            if (MapManager.Instance.checkBorders(pos + dir)
+                && MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)] is Beetroot)
+            MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
+        }
+    }
 }

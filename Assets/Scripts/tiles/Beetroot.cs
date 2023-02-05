@@ -17,7 +17,10 @@ public class Beetroot : Clockable, Iinteractable
         GROWN = 2,
         ROTTEN =3
     }  
-    int birthTick = -1;
+    int birthTick = -1; // time planted
+    int waterTick = -1; // time planted
+
+    // game variables
     [SerializeField] int growthTime;
     [SerializeField] int rotTime;
 
@@ -52,6 +55,7 @@ public class Beetroot : Clockable, Iinteractable
 
     public override void Action()
     {
+
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
 
@@ -60,6 +64,11 @@ public class Beetroot : Clockable, Iinteractable
 
     public State GetState(int currentTick)
     {
+        // if field is dry stall the growth cycle
+        if (GameManager.Instance.TimeToDry > 0 
+            && currentTick - waterTick > GameManager.Instance.TimeToDry)
+            birthTick++;
+
         if (birthTick == -1) { return State.EMPTY; }
         if (currentTick - birthTick < growthTime) { return State.GROWING; }
         if (currentTick - birthTick <= rotTime + growthTime) { return State.GROWN; }
@@ -69,6 +78,12 @@ public class Beetroot : Clockable, Iinteractable
     public void Interact()
     {
         AnimationPlayer();
+        if (PlayerManager.Instance.Tool == Tools.ARROSOIR) {
+            waterTick = Clock.Instance.Timer;
+            return;
+        }
+
+        if (PlayerManager.Instance.Tool != Tools.SAC) return;
         if (birthTick == -1)
             birthTick = Clock.Instance.Timer;
         if (currentState == State.GROWN)
