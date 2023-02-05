@@ -1,8 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Tile : Clockable
+public interface Iinteractable
+{
+    void Interact();
+}
+
+public class Beetroot : Clockable, Iinteractable
 {
     public enum State 
     { 
@@ -11,7 +17,6 @@ public class Tile : Clockable
         GROWN = 2,
         ROTTEN =3
     }  
-    State state = new();
     int birthTick = -1;
     [SerializeField] int growthTime;
     [SerializeField] int rotTime;
@@ -44,9 +49,12 @@ public class Tile : Clockable
     {
         //Debug.Log(GetState(Clock.Instance.Timer));
         //animator.setfloat(GetState(Clock.Instance.Timer))
+
         currentState = GetState(Clock.Instance.Timer);
         RenderSprite();
-    
+
+        Debug.Log(String.Format("alive since {0}", Clock.Instance.Timer - birthTick));
+        Debug.Log(currentState);
         lastState = currentState;
     }
 
@@ -56,6 +64,18 @@ public class Tile : Clockable
         if (currentTick - birthTick < growthTime) { return State.GROWING; }
         if (currentTick - birthTick <= rotTime + growthTime) { return State.GROWN; }
         return State.ROTTEN;
+    }
+
+    public void Interact()
+    {
+        //gameObject.SetActive(false);
+        Debug.Log("Interacted with field");
+        if (birthTick == -1)
+            birthTick = Clock.Instance.Timer;
+        if (currentState == State.GROWN)
+            PlayerManager.Instance.StoredBeets++;
+        if (currentState == State.GROWN || currentState == State.ROTTEN)
+            birthTick = -1;
     }
 
     void RenderSprite()
