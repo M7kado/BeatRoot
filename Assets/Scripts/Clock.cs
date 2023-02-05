@@ -50,6 +50,11 @@ public class Clock : MonoBehaviour
         objects.Add(obj);
     }
 
+    public void Unregister(Clockable obj)
+    {
+        objects.Remove(obj);
+    }
+
     private IEnumerator Tick()
     {
         GetComponent<AudioSource>().Play();

@@ -37,6 +37,10 @@ public class PlayerManager : MonoBehaviour
     public Vector2 initialPos;
     float wantedTimeMove=0.2f;
     float currentTimeMove = 0f;
+
+    public int stunedFrame = -999;
+    int stunDuration = 4;
+
     public static Animator playerAnimator { get; set; }
 
     private bool inputAccepted;
@@ -102,7 +106,9 @@ public class PlayerManager : MonoBehaviour
 
     bool Inputs()
     {
-        if (Clock.Instance.playerCanMove && Clock.Instance.playerAction == PlayerActions.NONE)
+        if (Clock.Instance.playerCanMove
+            && Clock.Instance.playerAction == PlayerActions.NONE
+            && stunedFrame + stunDuration < Clock.Instance.Timer)
         {
             currentTimeMove = 0;
             initialPos = pos + MapManager.Instance.renderOffset;
@@ -141,7 +147,7 @@ public class PlayerManager : MonoBehaviour
         if (Tool == Tools.ARROSOIR 
             && MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)] is Beetroot)
             PropagateWater(pos+dir);
-            
+
         // we do water propagation before ground otherwise we get out of bound on borders            
         MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
 
