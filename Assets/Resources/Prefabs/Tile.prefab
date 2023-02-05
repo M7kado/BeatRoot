@@ -99,6 +99,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   growthTime: 20
   rotTime: 20
+  iconOverField: {fileID: 0}
+  IconsTools:
+  - {fileID: 21300000, guid: 0d929fa1495e963498822c1d50451088, type: 3}
+  - {fileID: 21300000, guid: a8482182f5cfd3349a2a3973377c08b2, type: 3}
+  - {fileID: 21300000, guid: ff88c6b1cb8b46446b5b2a1abeac5404, type: 3}
+  - {fileID: 21300000, guid: 37fdd436957a4234cb14b58348fe2ccc, type: 3}
   sprites:
   - {fileID: -154988581, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}
   - {fileID: -188627695, guid: 908f01d051a2c1c469b96168729d2c45, type: 3}

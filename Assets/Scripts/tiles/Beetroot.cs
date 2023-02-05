@@ -21,6 +21,11 @@ public class Beetroot : Clockable, Iinteractable
     [SerializeField] int growthTime;
     [SerializeField] int rotTime;
 
+    [SerializeField] GameObject iconOverField;
+    private SpriteRenderer srIcon;
+    [SerializeField] Sprite[] IconsTools;
+
+
     private float percentageGrowing; 
 
     [SerializeField] Sprite[] sprites; 
@@ -42,6 +47,8 @@ public class Beetroot : Clockable, Iinteractable
         sr.sprite = sprites[0];
         numberStatesGrowing = growingSprites.Length;
         numberStatesGrown = grownSprites.Length;
+        iconOverField = Instantiate(Resources.Load<GameObject>("Prefabs/IconOverField"));
+        srIcon = iconOverField.GetComponent<SpriteRenderer>();
     }
 
     // DEBUG
@@ -69,6 +76,7 @@ public class Beetroot : Clockable, Iinteractable
     public void Interact()
     {
         AnimationPlayer();
+        StartCoroutine(ControlIconOverField());
         if (birthTick == -1)
             birthTick = Clock.Instance.Timer;
         if (currentState == State.GROWN)
@@ -105,4 +113,13 @@ public class Beetroot : Clockable, Iinteractable
         }
     }
 
+    IEnumerator ControlIconOverField()
+    {
+        iconOverField.transform.position = (Vector2)this.transform.position + Vector2.up *0.75f;
+        srIcon.sprite = IconsTools[(int)PlayerManager.Instance.Tool];
+        srIcon.enabled = true;
+        yield return new WaitForSeconds(0.25f);
+        srIcon.enabled = false;
+
+    }
 }
