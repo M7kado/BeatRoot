@@ -6,11 +6,8 @@ public abstract class Clockable : MonoBehaviour
 {
     protected void Start()
     {
-        Debug.Log("parent clockable start");
-        Debug.Log("this : " + this);
-        Debug.Log(Clock.Instance);
+        Debug.Log(this + " registering...");
         Clock.Instance.Register(this);
-
     }
 
     public abstract void Action();
@@ -19,7 +16,7 @@ public abstract class Clockable : MonoBehaviour
 public class Clock : MonoBehaviour
 {
     
-    public float bpm { get; private set; }
+    public float bpm;
     
     public bool playerCanMove { get; private set; }
     public PlayerActions playerAction { get; set; } = PlayerActions.NONE;
@@ -28,12 +25,11 @@ public class Clock : MonoBehaviour
 
     public int Timer { get; private set; }
 
+    List<Clockable> objects;
+
     void Awake() 
     {
-        bpm = 60;
         Timer = 0;
-        // If there is an instance, and it's not me, delete myself.
-        
         if (Instance != null && Instance != this) 
         {
             Debug.Log("Destroying");
@@ -45,23 +41,8 @@ public class Clock : MonoBehaviour
             Debug.Log("instance set" + Instance);
             objects = new List<Clockable>();
             StartCoroutine(Tick());
-            //StartCoroutine(PlayerTiming());
         } 
     }
-
-    List<Clockable> objects;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Debug.Log("parent clock start");
-        // objects = new List<Clockable>();
-        // StartCoroutine(Tick());
-        // StartCoroutine(PlayerTiming());
-
-    }
-
-    
 
     public void Register(Clockable obj)
     {
@@ -82,7 +63,6 @@ public class Clock : MonoBehaviour
             playerCanMove = true;
             yield return new WaitForSeconds((60f / bpm) * 0.25f);
             playerCanMove = false;
-            // playerAction = KeyCode.Escape;
             playerAction = PlayerActions.NONE;
             yield return new WaitForSeconds((60f / bpm) * 0.5f);
             playerCanMove = true;
@@ -90,20 +70,4 @@ public class Clock : MonoBehaviour
         }
     }
 
-    
-
-    // private IEnumerator PlayerTiming()
-    // {
-    //     while (true)
-    //     {
-    //         playerCanMove = true;
-    //         yield return new WaitForSeconds((60f / bpm) * 0.1f);
-    //         playerCanMove = false;
-    //         // playerAction = KeyCode.Escape;
-    //         playerAction = PlayerActions.NONE;
-    //         yield return new WaitForSeconds((60f / bpm) * 0.8f);
-    //         playerCanMove = true;
-    //         yield return new WaitForSeconds((60f / bpm) * 0.1f);
-    //     }
-    // }
 }

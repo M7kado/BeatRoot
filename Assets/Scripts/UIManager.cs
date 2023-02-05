@@ -20,48 +20,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI beetrootBagCounter;
 
     // Tools
-    private PlayerManager player;
-
     [SerializeField] private Sprite[] icons;
-    /*[SerializeField] private Sprite bagIcon;
-    [SerializeField] private Sprite bagIcoff;
-    [SerializeField] private Sprite waterCanIcon;
-    [SerializeField] private Sprite waterCanIcoff;
-    [SerializeField] private Sprite rakeIcon;
-    [SerializeField] private Sprite rakeIcoff;
-    [SerializeField] private Sprite trowelIcon;
-    [SerializeField] private Sprite trowelIcoff;*/
 
-
-    [SerializeField] private GameObject[] tools;
-    /*[SerializeField] private GameObject bag;
-    [SerializeField] private GameObject waterCan;
-    [SerializeField] private GameObject rake;
-    [SerializeField] private GameObject trowel;*/
-
-    private Image[] toolImages;
-    /*private Image bagImage;
-    private Image waterCanImage;
-    private Image rakeImage;
-    private Image trowelImage;*/
+    [SerializeField] private Image[] toolImages;
 
     public static UIManager Instance { get; private set; }
 
     void Awake()
     {
-        player = PlayerManager.Instance;
-        bpm = Clock.Instance.bpm;
-        toolImages = new Image[tools.Length];
-        beatImage = beat.GetComponent<Image>();
-        for (int i= 0; i < tools.Length; i++)
-        {
-            toolImages[i] = tools[i].GetComponent<Image>();
-        }
-        for (int i = tools.Length - 1; i>= player.toolBeltSize; i--)
-        {
-            tools[i].SetActive(false);
-        }
-
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -70,6 +36,16 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
             Debug.Log("instance set" + Instance);
+        }
+    }
+
+    private void Start()
+    {
+        bpm = Clock.Instance.bpm;
+        beatImage = beat.GetComponent<Image>();
+        for (int i = toolImages.Length - 1; i>= PlayerManager.Instance.toolBeltSize; i--)
+        {
+            toolImages[i].gameObject.SetActive(false);
         }
     }
 
@@ -100,12 +76,12 @@ public class UIManager : MonoBehaviour
 
     public void UpdateSprites()
     {
-        for (int i = 0; i < tools.Length; i++)
+        for (int i = 0; i < toolImages.Length; i++)
         {
             toolImages[i].sprite = icons[i];
             toolImages[i].transform.localScale = Vector3.one;
         }
-        int j = (int)player.Tool;
+        int j = (int)PlayerManager.Instance.Tool;
         toolImages[j].sprite = icons[j + 4];
         toolImages[j].transform.localScale *= 1.5f;
     }

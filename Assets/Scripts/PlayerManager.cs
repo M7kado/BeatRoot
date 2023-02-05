@@ -25,14 +25,21 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] public int toolBeltSize;
     public int StoredBeets { get; set; }
     public Tools Tool { get; private set; }
-    public Position pos = new Position(0, 0);
+    public Vector2 pos = new Vector2(0, 0);
 
-    public static Position[] dirs = {
-        new Position(0, 1),
-        new Position(0, -1),
-        new Position(-1, 0),
-        new Position(1, 0)
+    public static Vector2[] dirs = {
+        new Vector2(0, 1),
+        new Vector2(0, -1),
+        new Vector2(-1, 0),
+        new Vector2(1, 0)
     };
+    
+    public Vector2 initialPos;
+    float wantedTimeMove=0.2f;
+    float currentTimeMove = 0f;
+    public static Animator playerAnimator { get; set; }
+
+    private bool inputAccepted;
 
     public static PlayerManager Instance { get; private set; }
 
@@ -54,6 +61,9 @@ public class PlayerManager : MonoBehaviour
     {
         Tool = Tools.SAC;
         UIManager.Instance.UpdateSprites();
+        playerAnimator = this.GetComponentInChildren<Animator>();
+        //initialPos = transform.position + (Vector3)MapManager.Instance.renderOffset; // FIXME
+        initialPos = pos + MapManager.Instance.renderOffset; // FIXME
     }
 
     void Update()
@@ -73,16 +83,29 @@ public class PlayerManager : MonoBehaviour
         if (Inputs())
         {
             Action();
+            playerAnimator.SetInteger("int direction", (int)Clock.Instance.playerAction);
         }
-        
+        else
+        {
+            playerAnimator.SetTrigger("trigger inputNotAccepted");
+        }
+
         // render position in scene
-        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        currentTimeMove += Time.deltaTime;
+        transform.position = Vector2.Lerp(initialPos, new Vector2(
+            MapManager.Instance.renderOffset.x + pos.x,
+            MapManager.Instance.renderOffset.y + pos.y), 
+            currentTimeMove/wantedTimeMove); //FINISH IT
+
+        playerAnimator.SetInteger("int tool", (int)Tool);
     }
-  
+
     bool Inputs()
     {
         if (Clock.Instance.playerCanMove && Clock.Instance.playerAction == PlayerActions.NONE)
         {
+            currentTimeMove = 0;
+            initialPos = pos + MapManager.Instance.renderOffset;
             if(Input.GetKeyDown(KeyCode.Z))
             {
                 Clock.Instance.playerAction = PlayerActions.UP;
@@ -109,11 +132,17 @@ public class PlayerManager : MonoBehaviour
 
     void Action()
     {
-        Position dir = dirs[(int)Clock.Instance.playerAction];
+        Vector2 dir = dirs[(int)Clock.Instance.playerAction];
         
-        if(!pos.checkBorders(dir))
+        if(!MapManager.Instance.checkBorders(pos + dir))
             return;
         
-        MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
+        MapManager.Instance.mapObjects[(int)(pos.x + dir.x), (int)(pos.y + dir.y)].Interact();
     }
+
+    void AnimationTool()
+    {
+        Debug.Log("player action : " + Clock.Instance.playerAction);
+    }
+
 }
