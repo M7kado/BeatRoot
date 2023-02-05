@@ -32,8 +32,21 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        player = PlayerManager.Instance;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+            Debug.Log("instance set" + Instance);
+        }
+    }
+
+    private void Start()
+    {
         bpm = Clock.Instance.bpm;
+        player = PlayerManager.Instance;
         toolImages = new Image[tools.Length];
         beatImage = beat.GetComponent<Image>();
         for (int i= 0; i < tools.Length; i++)
@@ -43,16 +56,6 @@ public class UIManager : MonoBehaviour
         for (int i = tools.Length - 1; i>= player.toolBeltSize; i--)
         {
             tools[i].SetActive(false);
-        }
-
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            Instance = this;
-            Debug.Log("instance set" + Instance);
         }
     }
 

@@ -16,7 +16,7 @@ public abstract class Clockable : MonoBehaviour
 public class Clock : MonoBehaviour
 {
     
-    public float bpm { get; private set; }
+    public float bpm;
     
     public bool playerCanMove { get; private set; }
     public PlayerActions playerAction { get; set; } = PlayerActions.NONE;
@@ -29,7 +29,6 @@ public class Clock : MonoBehaviour
 
     void Awake() 
     {
-        bpm = 60;
         Timer = 0;
         if (Instance != null && Instance != this) 
         {
