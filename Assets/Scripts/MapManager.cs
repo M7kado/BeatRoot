@@ -12,7 +12,10 @@ public class MapManager : MonoBehaviour
     public Vector2 renderOffset;
 
     // MUST MATCH PREFAB NAME
-    public String[,] map= 
+    public String mapName;
+    public String[,] map;
+
+    public String[,] map1= 
     {
     {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
     {"Tile", "Ground","Tile","Tile","Tile","Tile","Tile","Ground"},
@@ -28,6 +31,53 @@ public class MapManager : MonoBehaviour
     {"Wall","Wall","Wall","Truck","Truck","Wall","Wall","Wall",},
     };
 
+    public String[,] map2= 
+    {
+    {"Tile","Tile","Tile","Tile","Tile","Tile","Tile","Tile",},
+    {"Tile", "Ground","Ground","Ground","Ground","Ground","Ground","Tile"},
+    {"Tile", "Ground","Tile","Tile","Ground","Tile","Ground","Tile"},
+    {"Tile", "Ground","Tile","Tile","Ground","Tile","Ground","Tile"},
+    {"Tile", "Ground","Tile","Tile","Ground","Tile","Ground","Ground"},
+    {"Tile", "Ground","Ground","Ground","Ground","Tile","Ground","Ground"},
+    {"Tile", "Ground","Tile","Tile","Ground","Tile","Ground","Tile"},
+    {"Tile", "Ground","Tile","Tile","Ground","Tile","Ground","Tile"},
+    {"Tile", "Ground","Tile","Tile","Ground","Tile","Ground","Tile"},
+    {"Tile", "Ground","Ground","Ground","Ground","Ground","Ground","Tile"},
+    {"Wall","Wall","Wall","Ground","Ground","Wall","Wall","Wall",},
+    {"Wall","Wall","Wall","Truck","Truck","Wall","Wall","Wall",},
+    };
+
+    public String[,] map3= 
+    {
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Ground","Tile","Tile","Ground"},
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Wall","Wall","Wall","Ground","Ground","Wall","Wall","Wall",},
+    {"Wall","Wall","Wall","Truck","Truck","Wall","Wall","Wall",},
+    };
+
+    public String[,] map4= 
+    {
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Ground", "Tile","Tile","Ground","Tile","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Tile","Tile","Tile","Ground"},
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Ground", "Tile","Tile","Tile","Ground","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Tile","Ground","Tile","Tile","Ground"},
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Ground", "Tile","Tile","Ground","Tile","Tile","Tile","Ground"},
+    {"Ground", "Tile","Tile","Ground","Tile","Tile","Tile","Ground"},
+    {"Ground","Ground","Ground","Ground","Ground","Ground","Ground","Ground",},
+    {"Wall","Wall","Wall","Ground","Ground","Wall","Wall","Wall",},
+    {"Wall","Wall","Wall","Truck","Truck","Wall","Wall","Wall",},
+    };
     public Iinteractable[,] mapObjects;
 
     public static MapManager Instance { get; private set; }
@@ -45,6 +95,11 @@ public class MapManager : MonoBehaviour
             Debug.Log("instance set" + Instance);
         }
         // Creating the mapObjects
+        // SelectMap
+        if (mapName.Equals("Level1")) map = map1;
+        if (mapName.Equals("Level2")) map = map2;
+        if (mapName.Equals("Level3")) map = map3;
+        if (mapName.Equals("Level4")) map = map4;
         mapObjects = new Iinteractable[mapWidth, mapHeight];
         for(int i = 0; i< mapWidth; i++)
         {
