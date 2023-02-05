@@ -44,6 +44,7 @@ public class Clock : MonoBehaviour
             Instance = this; 
             Debug.Log("instance set" + Instance);
             objects = new List<Clockable>();
+            Debug.Log(Tick());
             StartCoroutine(Tick());
             //StartCoroutine(PlayerTiming());
         } 

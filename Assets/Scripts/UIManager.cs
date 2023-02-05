@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,21 +12,56 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject beat;
     private Image beatImage;
     private float bpm;
-    private float realTime = 0f;
+    private float beatTime = 0f;
 
     // Progression
-    [SerializeField] private Slider progressBar;
-    [SerializeField] private TMP_Text progressTxt;
-    public TextMeshProUGUI remainingTime;
-    public TextMeshProUGUI beetrootTruckCounter;
-    public TextMeshProUGUI beetrootBagCounter;
+    [SerializeField] private TextMeshProUGUI remainingTime;
+    [SerializeField] private TextMeshProUGUI beetrootTruckCounter;
+    [SerializeField] private TextMeshProUGUI beetrootBagCounter;
+
+    // Tools
+    private PlayerManager player;
+
+    [SerializeField] private Sprite[] icons;
+    /*[SerializeField] private Sprite bagIcon;
+    [SerializeField] private Sprite bagIcoff;
+    [SerializeField] private Sprite waterCanIcon;
+    [SerializeField] private Sprite waterCanIcoff;
+    [SerializeField] private Sprite rakeIcon;
+    [SerializeField] private Sprite rakeIcoff;
+    [SerializeField] private Sprite trowelIcon;
+    [SerializeField] private Sprite trowelIcoff;*/
+
+
+    [SerializeField] private GameObject[] tools;
+    /*[SerializeField] private GameObject bag;
+    [SerializeField] private GameObject waterCan;
+    [SerializeField] private GameObject rake;
+    [SerializeField] private GameObject trowel;*/
+
+    private Image[] toolImages;
+    /*private Image bagImage;
+    private Image waterCanImage;
+    private Image rakeImage;
+    private Image trowelImage;*/
 
     public static UIManager Instance { get; private set; }
 
     void Awake()
     {
+        player = PlayerManager.Instance;
         bpm = Clock.Instance.bpm;
+        toolImages = new Image[tools.Length];
         beatImage = beat.GetComponent<Image>();
+        for (int i= 0; i < tools.Length; i++)
+        {
+            toolImages[i] = tools[i].GetComponent<Image>();
+        }
+        for (int i = tools.Length - 1; i>= player.toolBeltSize; i--)
+        {
+            tools[i].SetActive(false);
+        }
+
         if (Instance != null && Instance != this)
         {
             Destroy(this);
@@ -43,22 +76,37 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         // Beat
-        realTime += Time.deltaTime;
+        beatTime += Time.deltaTime;
 
         foreach (Slider slider in tempoSliders)
         {
-            slider.value = realTime * bpm / 60;
+            slider.value = beatTime * bpm / 60;
         }
-        if (realTime * bpm / 60 > 0.8)
+        if (beatTime * bpm / 60 > 0.8)
             beatImage.sprite = beatSpritesON;
         else
             beatImage.sprite = beatSpritesOFF;
-        if (realTime >= 60 / bpm)
-            realTime = 0;
+        if (beatTime >= 60 / bpm)
+            beatTime = 0;
 
-        // display
+        // Display
         remainingTime.SetText(String.Format("{0}", GameManager.Instance.timeRemaining));
         beetrootTruckCounter.SetText(String.Format("Collected : {0} / {1}", GameManager.Instance.BeetrootCollected, GameManager.Instance.BeetrootNeeded));
         beetrootBagCounter.SetText(String.Format("Holding : {0} / {1}", PlayerManager.Instance.StoredBeets, PlayerManager.Instance.bagSize));
+
+        // Tools (cf UpdateSprites)
+        
+    }
+
+    public void UpdateSprites()
+    {
+        for (int i = 0; i < tools.Length; i++)
+        {
+            toolImages[i].sprite = icons[i];
+            toolImages[i].transform.localScale = Vector3.one;
+        }
+        int j = (int)player.Tool;
+        toolImages[j].sprite = icons[j + 4];
+        toolImages[j].transform.localScale *= 1.5f;
     }
 }

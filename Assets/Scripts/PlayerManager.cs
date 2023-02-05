@@ -13,14 +13,16 @@ public enum PlayerActions {
 
 public enum Tools
 {
-    BECHE,
     SAC,
-    ARROSOIR
+    ARROSOIR,
+    RATEAU,
+    BECHE
 }
 
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] public int bagSize;
+    [SerializeField] public int toolBeltSize;
     public int StoredBeets { get; set; }
     public Tools Tool { get; private set; }
     public Position pos = new Position(0, 0);
@@ -50,23 +52,22 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        Tool = Tools.BECHE;
+        Tool = Tools.SAC;
+        UIManager.Instance.UpdateSprites();
     }
 
     void Update()
     {
         // Switch Tool
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            Tool = Tools.BECHE;
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            Tool = Tools.SAC;
+            Tool = (Tools)(((int)Tool - 1 + toolBeltSize) % toolBeltSize) ;
+            UIManager.Instance.UpdateSprites();
         }
         else if (Input.GetKeyDown(KeyCode.L))
         {
-            Tool = Tools.ARROSOIR;
+            Tool = (Tools)(((int)Tool + 1) % toolBeltSize);
+            UIManager.Instance.UpdateSprites();
         }
 
         if (Inputs())
