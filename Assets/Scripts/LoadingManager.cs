@@ -8,15 +8,12 @@ using UnityEngine.SceneManagement;
 public class LoadingManager : MonoBehaviour
 {
     bool loaded;
-    private Slider loadBar;
-    private TMP_Text txt;
-    [SerializeField] private GameObject loading;
+    [SerializeField] private Slider loadBar;
+    [SerializeField] private TMP_Text txt;
     [SerializeField] private GameObject[] loadingScreens;
     // Start is called before the first frame update
     void Start()
     {
-        loadBar = loading.GetComponent<Slider>();
-        txt = loading.GetComponent<TMP_Text>();
         foreach (GameObject loading in loadingScreens)
         {
             loading.SetActive(false);
@@ -36,10 +33,14 @@ public class LoadingManager : MonoBehaviour
 
     private IEnumerator Loading(float time)
     {
-        loading.GetComponent<TMP_Text>().text = "Loading";
+        txt.text = "Loading";
         loaded = false;
-        yield return new WaitForSeconds(time);
-        loading.GetComponent<TMP_Text>().text = "Press any key to continue";
+        for (float i = 0; i <= time; i += Time.deltaTime)
+        {
+            loadBar.value = i / time;
+            yield return null;
+        }
+        txt.text = "Press any key to continue";
         loaded = true;
     }
 }
