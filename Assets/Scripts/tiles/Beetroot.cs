@@ -25,7 +25,10 @@ public class Beetroot : Clockable, Iinteractable
 
     [SerializeField] Sprite[] sprites; 
     [SerializeField] Sprite[] growingSprites;
+    [SerializeField] Sprite[] grownSprites;
     private int numberStatesGrowing;
+    private int numberStatesGrown;
+
 
     private SpriteRenderer sr;
 
@@ -38,9 +41,11 @@ public class Beetroot : Clockable, Iinteractable
         sr = this.GetComponent<SpriteRenderer>();
         sr.sprite = sprites[0];
         numberStatesGrowing = growingSprites.Length;
-    }
-    // Update is called once per frame
-    void Update()
+        numberStatesGrown = grownSprites.Length;
+
+}
+// Update is called once per frame
+void Update()
     {
         if (Input.GetKeyDown(KeyCode.P)) { birthTick = Clock.Instance.Timer; Debug.Log("KeyCode.P pressed"); }
     }
@@ -68,6 +73,7 @@ public class Beetroot : Clockable, Iinteractable
 
     public void Interact()
     {
+        AnimationPlayer();
         //gameObject.SetActive(false);
         Debug.Log("Interacted with field");
         if (birthTick == -1)
@@ -78,9 +84,14 @@ public class Beetroot : Clockable, Iinteractable
             birthTick = -1;
     }
 
+    void AnimationPlayer()
+    {
+        PlayerManager.playerAnimator.SetTrigger("trigger move");
+    }
+
     void RenderSprite()
     {
-        if (currentState != lastState && currentState != State.GROWING)
+        if (currentState != lastState && currentState != State.GROWING && currentState != State.GROWN)
         {
             sr.sprite = sprites[(int)currentState];
         }
@@ -90,7 +101,10 @@ public class Beetroot : Clockable, Iinteractable
             Debug.Log("percentageGrowing = "+percentageGrowing);
             sr.sprite = growingSprites[Mathf.FloorToInt(percentageGrowing * numberStatesGrowing)];
         }
-
+        if (currentState == State.GROWN)
+        {
+            sr.sprite = grownSprites[UnityEngine.Random.Range(0,numberStatesGrown)];
+        }
     }
 
 }

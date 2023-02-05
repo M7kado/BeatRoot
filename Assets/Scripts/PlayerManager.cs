@@ -13,9 +13,10 @@ public enum PlayerActions {
 
 public enum Tools
 {
-    BECHE,
     SAC,
-    ARROSOIR
+    ARROSOIR,
+    RATEAU,
+    TRUELLE
 }
 
 public class PlayerManager : MonoBehaviour
@@ -24,6 +25,13 @@ public class PlayerManager : MonoBehaviour
     public int StoredBeets { get; set; }
     public Tools Tool { get; private set; }
     public Position pos = new Position(0, 0);
+
+    public Vector2 initialPos;
+    float wantedTimeMove=0.2f;
+    float currentTimeMove = 0f;
+    public static Animator playerAnimator { get; set; }
+
+    private bool inputAccepted;
 
     public static Position[] dirs = {
         new Position(0, 1),
@@ -51,7 +59,9 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Tool = Tools.BECHE;
+        playerAnimator = this.GetComponentInChildren<Animator>();
+        Tool = Tools.SAC;
+        initialPos = transform.position;
     }
 
     // Update is called once per frame
@@ -60,30 +70,45 @@ public class PlayerManager : MonoBehaviour
         // Switch Tool
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Tool = Tools.BECHE;
+            Tool = Tools.SAC;
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
-            Tool = Tools.SAC;
+            Tool = Tools.ARROSOIR;
         }
         else if (Input.GetKeyDown(KeyCode.L))
         {
-            Tool = Tools.ARROSOIR;
+            Tool = Tools.RATEAU;
+        }
+        else if (Input.GetKeyDown(KeyCode.M))
+        {
+            Tool = Tools.TRUELLE;
         }
 
         if (Inputs())
         {
             Action();
+            playerAnimator.SetInteger("int direction", (int)Clock.Instance.playerAction);
         }
-        
+        else
+        {
+            playerAnimator.SetTrigger("trigger inputNotAccepted");
+        }
+
         // render position in scene
-        transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        currentTimeMove += Time.deltaTime;
+        transform.position = Vector2.Lerp(initialPos, new Vector2(pos.x,pos.y), currentTimeMove/wantedTimeMove); //FINISH IT
+
+        //transform.position = new Vector3(pos.x, pos.y, transform.position.z);
+        playerAnimator.SetInteger("int tool", (int)Tool);
     }
-  
+
     bool Inputs()
     {
         if (Clock.Instance.playerCanMove && Clock.Instance.playerAction == PlayerActions.NONE)
         {
+            currentTimeMove = 0;
+            initialPos = new Vector2(pos.x, pos.y);
             if(Input.GetKeyDown(KeyCode.Z))
             {
                 Clock.Instance.playerAction = PlayerActions.UP;
@@ -124,6 +149,13 @@ public class PlayerManager : MonoBehaviour
         //     MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
         // }
 
-        MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact();
+        MapManager.Instance.mapObjects[pos.x + dir.x, pos.y + dir.y].Interact(); 
+
     }
+
+    void AnimationTool()
+    {
+        Debug.Log("player action : " + Clock.Instance.playerAction);
+    }
+
 }
