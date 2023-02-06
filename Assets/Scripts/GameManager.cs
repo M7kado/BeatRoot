@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLvl()
     {
+        Time.timeScale = 1f;
         Debug.Log("lvl : " + currentLvl);
         SceneManager.LoadScene("LoadingScreen");
 

@@ -50,14 +50,17 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        pauseContainer.SetActive(false);
-        settingsContainer.SetActive(false);
+        /*pauseContainer.SetActive(false);
+        settingsContainer.SetActive(false);*/
         bpm = Clock.Instance.bpm;
         beatImage = beat.GetComponent<Image>();
         for (int i = toolImages.Length - 1; i>= PlayerManager.Instance.toolBeltSize; i--)
         {
+            Debug.Log("Startui : " + i);
             toolImages[i].gameObject.SetActive(false);
         }
+
+        Debug.Log("Music : " + music.isPlaying);
     }
 
     private void Update()
@@ -76,7 +79,7 @@ public class UIManager : MonoBehaviour
         {
             slider.value = beatTime * bpm / 60;
         }
-        if (beatTime * bpm / 60 > 0.8)
+        if (Clock.Instance.playerCanMove)
             beatImage.sprite = beatSpritesON;
         else
             beatImage.sprite = beatSpritesOFF;
@@ -131,6 +134,11 @@ public class UIManager : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     public void SetMusicVolume(float musicVolume)

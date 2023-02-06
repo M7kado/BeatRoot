@@ -11,6 +11,7 @@ public class LoadingManager : MonoBehaviour
     [SerializeField] private Slider loadBar;
     [SerializeField] private TMP_Text txt;
     [SerializeField] private GameObject[] loadingScreens;
+    [SerializeField] private GameObject controls;
     private int nextLvl;
     // Start is called before the first frame update
     void Start()
@@ -20,21 +21,19 @@ public class LoadingManager : MonoBehaviour
         {
             loading.SetActive(false);
         }
-        Debug.Log("Loading game manager : " + GameManager.Instance.currentLvl);
-        if (GameManager.Instance.currentLvl == 0)
-        {
-            nextLvl = 1;
-            loadingScreens[0].SetActive(true);
-        }
-        else
-        {
-            nextLvl = GameManager.Instance.currentLvl + 1;
-            loadingScreens[GameManager.Instance.currentLvl].SetActive(true);
-        }
-        if (nextLvl <= 4)
+        nextLvl = GameManager.Instance.currentLvl + 1;
+        loadingScreens[GameManager.Instance.currentLvl].SetActive(true);
+        if (nextLvl <= 4) 
             StartCoroutine(Loading(1f));
-        else
+        else // It's victory screen
+        {
             loaded = false;
+            loadBar.gameObject.SetActive(false);
+            txt.gameObject.SetActive(false);
+            controls.SetActive(false);
+
+        }
+            
     }
 
     // Update is called once per frame

@@ -185,8 +185,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapWidth: 12
   mapHeight: 8
-  playerSpawnPoint: {x: 0, y: 1}
+  playerSpawnPoint: {x: 3, y: 3}
   renderOffset: {x: 10, y: 3}
+  mapName: Level3
 --- !u!82 &13811299
 AudioSource:
   m_ObjectHideFlags: 0
@@ -197,11 +198,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6ae4e63c49e9ec046876d4d50df7b810, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0fde56f10f353f34791cbb41688ef554, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -297,7 +298,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLvl: 3
   TimeInSeconds: 300
-  BeetrootNeeded: 50
+  BeetrootNeeded: 25
+  TimeToDry: 150
+  LeavesRNG: 1
   BeetrootCollected: 0
 --- !u!1 &156000054
 GameObject:
@@ -684,7 +687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1239405604227062559, guid: 3077f4916579cdf4db418abb3c84f466, type: 3}
       propertyPath: toolBeltSize
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3077f4916579cdf4db418abb3c84f466, type: 3}
@@ -938,7 +941,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1377851038, guid: 823446c3a3d01ee47b05bd63888e1d3f, type: 3}
+  m_Sprite: {fileID: 1293296516, guid: 0398b958e748d1345a93caf0b71cf6b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -957,7 +960,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542937068}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.322763, y: 6.578847, z: 0}
+  m_LocalPosition: {x: 21.85, y: 7.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -977,8 +980,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 1377851038, guid: 823446c3a3d01ee47b05bd63888e1d3f, type: 3}
-  - {fileID: 1081794561, guid: 823446c3a3d01ee47b05bd63888e1d3f, type: 3}
+  - {fileID: 1293296516, guid: 0398b958e748d1345a93caf0b71cf6b3, type: 3}
+  - {fileID: 827720163, guid: 0398b958e748d1345a93caf0b71cf6b3, type: 3}
 --- !u!1001 &1673918859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -986,6 +989,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1800218695, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 13811299}
     - target: {fileID: 2073250073342155448, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1158,6 +1165,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5169746612139363850, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2073250074658753229, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0b1951cee12ed1f489dd17ed56976e13, type: 3}
@@ -1316,7 +1327,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 72ccb1dfb47209842b551c48b041f7b2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 908fad266a3c72b4195fd4583fbc939d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1379,6 +1390,7 @@ MonoBehaviour:
   toolBeltSize: 4
   pos: {x: 0, y: 0}
   initialPos: {x: 0, y: 0}
+  stunedFrame: -999
 --- !u!212 &1787429602
 SpriteRenderer:
   m_ObjectHideFlags: 0
